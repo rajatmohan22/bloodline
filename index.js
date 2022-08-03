@@ -6,19 +6,21 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended:true}))
 app.set('view engine','ejs');
+const cookieParser = require("cookie-parser");
 const session = require('express-session');
 const isLoggedIn = require('./utils/isLoggedIn');
 app.use(
     session({
       secret: "thisisdexterfromtheotherside",
-      resave: true,
+      resave: false,
       saveUninitialized: true,
       cookie: {
-        maxAge: 360000,
+        maxAge: 3600000,
         secure: false // this should be true only when you don't want to show it for security reason
       }
     })
   );
+app.use(cookieParser());
 const User = require('./src/schemas/user');
 const Donor = require('./src/schemas/donor');
 app.use(passport.initialize());
@@ -57,8 +59,7 @@ app.get('/logout', function(req, res){
 
 app.route('/dashboard')
 .get(isLoggedIn,(req,res)=>{
-    console.log(req.session.cookie)
-    res.render('dashboard',{user:req.user,age:req.session.cookie.originalMaxAge})
+    res.render('dashboard',{user:req.user,age:req.session.cookie.maxAge})
 })
 
 app.route('/register')
