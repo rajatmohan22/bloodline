@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+
+<div class="container my-3">
+    <div class="row">
+        <div class="col-8">
+            <% if(!user){ %> 
+            <p class="my-3" style="color: red;">Log in to see donors in your city</p>
+            <% } %> 
+                <% donors.forEach(function(donor) { %>
+                    <div class="card">
+                        <h5 class="card-header"><%= donor.name %> </h5>
+                        <div class="card-body">
+                          <p class="card-text">
+                           City: <%= donor.city %> 
+                          </p>
+                          <a href="/donor/<%= donor.id %> " class="btn btn-primary">More detailed info</a>
+                        </div>
+                      </div>
+                <% }); %> 
+                <a href="/dashboard">Back to Dashboard</a>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<%- include('partials/footer') %> 
