@@ -57,7 +57,8 @@ app.get('/logout', function(req, res){
 
 app.route('/dashboard')
 .get(isLoggedIn,(req,res)=>{
-    res.render('dashboard',{user:req.user})
+    console.log(req.session.cookie)
+    res.render('dashboard',{user:req.user,age:req.session.cookie.originalMaxAge})
 })
 
 app.route('/register')
